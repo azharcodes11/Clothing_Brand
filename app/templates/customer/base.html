@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="AUREN premium contemporary clothing—considered design for a confident modern presence.">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>{% block title %}AUREN — Wear Your Presence{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div class="progress" aria-hidden="true"></div>
+  {% if announcement %}<div class="announcement">{{ announcement }}</div>{% endif %}
+  <header class="site-header" id="siteHeader">
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+    <a class="logo" href="{{ url_for('store.home') }}">AUREN</a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="{{ url_for('store.new_arrivals') }}">New arrivals</a><a href="{{ url_for('store.shop', gender='men') }}">Men</a>
+      <a href="{{ url_for('store.shop', gender='women') }}">Women</a><a href="{{ url_for('store.collections') }}">Collections</a><a href="{{ url_for('store.about') }}">About</a>
+    </nav>
+    <nav class="utility-nav" aria-label="Account navigation">
+      <button class="search-toggle" aria-label="Search">⌕</button>
+      <a href="{{ url_for('store.profile') if current_user.is_authenticated else url_for('store.login') }}" aria-label="Account">♙</a>
+      <a href="{{ url_for('store.wishlist') }}" aria-label="Wishlist">♡<sup>{{ wishlist_count }}</sup></a>
+      <a href="{{ url_for('store.cart') }}" aria-label="Shopping bag">Bag<sup>{{ cart_count }}</sup></a>
+    </nav>
+  </header>
+  <div class="mobile-drawer" aria-hidden="true"><button class="drawer-close" aria-label="Close menu">×</button><nav><a href="{{ url_for('store.home') }}">Home</a><a href="{{ url_for('store.new_arrivals') }}">New arrivals</a><a href="{{ url_for('store.shop', gender='men') }}">Men</a><a href="{{ url_for('store.shop', gender='women') }}">Women</a><a href="{{ url_for('store.collections') }}">Collections</a><a href="{{ url_for('store.about') }}">About AUREN</a></nav></div>
+  <div class="search-overlay" aria-hidden="true"><button class="search-close" aria-label="Close search">×</button><form action="{{ url_for('store.shop') }}"><label for="global-search">What are you looking for?</label><div><input id="global-search" name="q" placeholder="Search the collection" autocomplete="off"><button>SEARCH</button></div></form></div>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="site-footer">
+    <section><a class="logo footer-logo" href="{{ url_for('store.home') }}">AUREN</a><p>Considered clothing for a confident modern presence.</p><p class="fine">© 2026 AUREN. Original demonstration project.</p></section>
+    <section><h3>Client care</h3><a href="{{ url_for('store.content_page', slug='faq') }}">FAQ</a><a href="{{ url_for('store.content_page', slug='size-guide') }}">Size guide</a><a href="{{ url_for('store.content_page', slug='shipping-returns') }}">Shipping & returns</a><a href="{{ url_for('store.track_order') }}">Track order</a></section>
+    <section><h3>About</h3><a href="{{ url_for('store.about') }}">Our story</a><a href="{{ url_for('store.contact') }}">Contact</a><a href="{{ url_for('store.content_page', slug='privacy') }}">Privacy</a><a href="{{ url_for('store.content_page', slug='terms') }}">Terms</a></section>
+    <section><h3>The AUREN journal</h3><p>Private previews, considered stories and new collection notes.</p><form class="newsletter-form" method="post" action="{{ url_for('store.newsletter') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label class="sr-only" for="footer-email">Email address</label><input id="footer-email" type="email" name="email" placeholder="Email address" required><button>JOIN</button></form></section>
+  </footer>
+  <button class="back-top" aria-label="Back to top">↑</button>
+  <div class="flash-stack" aria-live="polite">{% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}<button aria-label="Dismiss">×</button></div>{% endfor %}{% endwith %}</div>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>{% block scripts %}{% endblock %}
+</body></html>
+

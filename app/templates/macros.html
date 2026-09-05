@@ -1,0 +1,22 @@
+{% macro product_card(product) %}
+<article class="product-card reveal">
+  <a class="product-media" href="{{ url_for('store.product_detail', slug=product.slug) }}" aria-label="View {{ product.name }}">
+    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" loading="lazy">
+    {% if product.discount_percent %}<span class="badge">-{{ product.discount_percent }}%</span>{% endif %}
+    {% if product.new_arrival %}<span class="tag">NEW</span>{% endif %}
+  </a>
+  <div class="product-info">
+    <div><p class="meta">{{ product.category }} · {{ product.gender }}</p><a href="{{ url_for('store.product_detail', slug=product.slug) }}"><h3>{{ product.name }}</h3></a></div>
+    <div class="price"><strong>Rs. {{ "{:,.0f}".format(product.price) }}</strong>{% if product.original_price %}<s>Rs. {{ "{:,.0f}".format(product.original_price) }}</s>{% endif %}</div>
+  </div>
+  <div class="card-actions">
+    <form method="post" action="{{ url_for('store.add_to_cart', product_id=product.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="next" value="{{ request.full_path }}">
+      <input type="hidden" name="size" value="{{ product.size_list[0] if product.size_list else 'One Size' }}"><input type="hidden" name="color" value="{{ product.color_list[0] if product.color_list else 'Default' }}">
+      <button class="text-button" {% if product.stock < 1 %}disabled{% endif %}>{{ 'ADD TO BAG' if product.stock else 'OUT OF STOCK' }}</button>
+    </form>
+    <form method="post" action="{{ url_for('store.toggle_wishlist', product_id=product.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="icon-button" title="Save to wishlist" aria-label="Save {{ product.name }} to wishlist">♡</button></form>
+  </div>
+</article>
+{% endmacro %}
+

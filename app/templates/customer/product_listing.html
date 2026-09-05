@@ -1,0 +1,2 @@
+{% extends 'customer/base.html' %}{% from 'macros.html' import product_card %}{% block title %}{{ title }} — AUREN{% endblock %}{% block content %}<header class="page-hero"><p class="eyebrow">AUREN / 2026</p><h1>{{ title }}</h1><p>{{ intro }}</p></header><section class="section"><div class="product-grid four">{% for product in products %}{{ product_card(product) }}{% else %}<p class="empty">No products are available yet.</p>{% endfor %}</div></section>{% endblock %}
+

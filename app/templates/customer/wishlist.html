@@ -1,0 +1,2 @@
+{% extends 'customer/base.html' %}{% from 'macros.html' import product_card %}{% block title %}Wishlist — AUREN{% endblock %}{% block content %}<header class="page-hero compact"><p class="eyebrow">SAVED FOR LATER</p><h1>Your wishlist</h1></header><section class="section"><div class="product-grid four">{% for item in items %}{{ product_card(item.product) }}{% else %}<div class="empty centered"><h2>No saved pieces yet.</h2><a class="button dark" href="{{ url_for('store.shop') }}">Explore the collection</a></div>{% endfor %}</div></section>{% endblock %}
+

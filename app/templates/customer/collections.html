@@ -1,0 +1,2 @@
+{% extends 'customer/base.html' %}{% block title %}Collections — AUREN{% endblock %}{% block content %}<header class="page-hero"><p class="eyebrow">THE AUREN ARCHIVE</p><h1>Collections</h1><p>Each edit begins with a feeling, resolved through form.</p></header><section class="section collection-list">{% for name in collections %}<a href="{{ url_for('store.shop') }}?collection={{ name|urlencode }}"><span>0{{ loop.index }}</span><h2>{{ name }}</h2><em>Explore →</em></a>{% else %}<p>No collections yet.</p>{% endfor %}</section>{% endblock %}
+
